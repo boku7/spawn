@@ -12,6 +12,16 @@ Cobalt Strike Beacon Object File (BOF) that takes the name of of a PE file as an
   ![](Bof-SpawnSuspendedProcess.png)
 + Spawning new suspended processes with the BOF
 
+### Compile with x64 MinGW:
+```bash
+x86_64-w64-mingw32-gcc -c spawnSuspendedProcess.c -o spawnSuspendedProcess.o
+```
+### Run from Cobalt Strike Beacon Console
+```bash
+beacon> inline-execute /Path/To/spawnSuspendedProcess.o <EXE FileName>
+```
+
+
 ### To Do List
 + Return the PID to the Cobalt Strike console when the new process is spawned
 + Do not crash the beacon process when the PE file does not exist
