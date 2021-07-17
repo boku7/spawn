@@ -24,7 +24,9 @@ beacon> inline-execute /Path/To/spawnSuspendedProcess.o <EXE FileName>
 
 ### To Do List
 + Return the PID to the Cobalt Strike console when the new process is spawned
-+ Do not crash the beacon process when the PE file does not exist
++ ~~Do not crash the beacon process when the PE file does not exist~~
+![](/noCrashUpdate.png)
+  - No longer crashes on process creation failure!
 + Build out different methods of remote process injection
 + Build out different methods of remote process patching
   + NTDLL.DLL remote process Unhooking
