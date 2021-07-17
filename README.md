@@ -38,7 +38,12 @@ beacon> inline-execute /Path/To/spawnSuspendedProcess.o <EXE FileName>
 + https://www.youtube.com/watch?v=gfYswA_Ronw
 ##### Cobalt Strike - Beacon Object Files
 + https://www.cobaltstrike.com/help-beacon-object-files
-##### BOF Code reference - ajpc500/BOFs
+##### BOF Code References
+###### anthemtotheego/InlineExecute-Assembly
++ https://github.com/anthemtotheego/InlineExecute-Assembly/blob/main/inlineExecuteAssembly/inlineExecute-Assembly.cna
+###### ajpc500/BOFs
 + https://github.com/ajpc500/BOFs/blob/395c66a9353bb19853913aebcb3af143dd8f1d36/ETW/etw.c
+###### trustedsec/CS-Situational-Awareness-BOF
++ https://github.com/trustedsec/CS-Situational-Awareness-BOF
 ##### Sektor7 Malware Dev Essentials course - learned how to do the early bird injection technique
 + https://institute.sektor7.net/red-team-operator-malware-development-essentials
