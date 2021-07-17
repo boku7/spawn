@@ -33,6 +33,7 @@ beacon> inline-execute /Path/To/spawnSuspendedProcess.o <EXE FileName>
   + ETW remote process Patching/Bypass
   + AMSI remote process Patching/Bypass
   + CLR Loading & .Net assembly injection
++ PPID spoofing for better parent-child process relation OPSEC
 
 
 ### Credits / References
