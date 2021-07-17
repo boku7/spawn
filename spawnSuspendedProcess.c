@@ -13,7 +13,12 @@ void SpawnProcess(char * procName) {
     sInfo.cb = sizeof(sInfo);
     intZeroMemory(&pInfo, sizeof(pInfo));
     WINBOOL success = KERNEL32$CreateProcessA(0, procName, 0, 0, 0, CREATE_SUSPENDED, 0, 0, &sInfo, &pInfo);
-    BeaconPrintf(CALLBACK_OUTPUT, "%d", success);
+    if (success == 1){
+        BeaconPrintf(CALLBACK_OUTPUT, "Your new process %s has been spawned in a suspended state!",procName);
+    }
+    else{
+        BeaconPrintf(CALLBACK_OUTPUT, "Uh oh, your process failed to spawn. Typically this is because the EXE does not exist. You're beacon has likely died.. All is doomed.. :'(");
+    }
 }
 
 void go(char * args, int len) {
