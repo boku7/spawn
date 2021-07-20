@@ -106,6 +106,5 @@ void go(char * args, int len) {
     BeaconDataParse(&parser, args, len);
     peName = BeaconDataExtract(&parser, NULL);
     ppid = BeaconDataInt(&parser);
-    BeaconPrintf(CALLBACK_OUTPUT, "Attempting to openProcess: %d(PID)", ppid);
     SpawnProcess(peName,ppid);
 }
