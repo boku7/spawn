@@ -30,17 +30,17 @@ beacon> spawn /path/to/exe PPID
 ```
 
 ### To Do List
-+ ~Agressor script for better end user experience~
-![](/images/cna.png)
-+ ~PPID spoofing for better parent-child process relation OPSEC~
-![](/images/ppidspoof.png)
++ ~Agressor script for better end user experience~   
+  ![](/images/cna.png)
++ ~PPID spoofing for better parent-child process relation OPSEC~    
+  ![](/images/ppidspoof.png)
   - Here we can see our `cmd.exe` process being spawned with the PPID as `OneDrive.exe`
-+ ~implement Cobalt Strike `blockdll` functionality to prevent non-MS signed DLLs from loading into the spawned processes memory~
-![](/images/blockdll.png)
++ ~implement Cobalt Strike `blockdll` functionality to prevent non-MS signed DLLs from loading into the spawned processes memory~    
+  ![](/images/blockdll.png)
   - We see the parent-child process relationship, and that our spawned process has been created with the `Signatures restricted (Microsoft only)`
   - The `Signatures restricted (Microsoft only)` makes it so DLL's not signed by Microsoft cannot be loaded into our spawned process
-+ ~~Do not crash the beacon process when the PE file does not exist~~
-![](/images/noCrashUpdate.png)
++ ~~Do not crash the beacon process when the PE file does not exist~~  
+  ![](/images/noCrashUpdate.png)
   - No longer crashes on process creation failure!
 + Return the PID to the Cobalt Strike console when the new process is spawned
 + Build out different methods of remote process injection
