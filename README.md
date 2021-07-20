@@ -73,7 +73,7 @@ beacon> spawn /path/to/exe PPID
 ###### anthemtotheego/InlineExecute-Assembly
 + https://github.com/anthemtotheego/InlineExecute-Assembly/blob/main/inlineExecuteAssembly/inlineExecute-Assembly.cna
 ###### ajpc500/BOFs
-+ https://github.com/ajpc500/BOFs/blob/395c66a9353bb19853913aebcb3af143dd8f1d36/ETW/etw.c
++ https://github.com/ajpc500/BOFs/
 ###### trustedsec/CS-Situational-Awareness-BOF
 + https://github.com/trustedsec/CS-Situational-Awareness-BOF
 ##### Sektor7 Malware Dev Essentials course - learned how to do the early bird injection technique
