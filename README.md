@@ -42,7 +42,8 @@ beacon> spawn /path/to/exe PPID
 + ~~Do not crash the beacon process when the PE file does not exist~~  
   ![](/images/noCrashUpdate.png)
   - No longer crashes on process creation failure!
-+ Return the PID to the Cobalt Strike console when the new process is spawned
++ ~Return the PID to the Cobalt Strike console when the new process is spawned~  
+  ![](/images/retpid.png)
 + Build out different methods of remote process injection
 + Build out different methods of remote process patching
   + NTDLL.DLL remote process Unhooking
