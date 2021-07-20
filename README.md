@@ -12,9 +12,8 @@ beacon> ps
 8264  5536  OneDrive.exe                 x86   1           DESKTOP-KOSR2NO\boku 
 beacon> spawn cmd.exe 8264
 [*] SPAWN (@0xBoku|github.com/boku7)
-Attempting to openProcess: 8264(PID)
-Returned Handle: 5f8
-Successfully spawned process: cmd.exe
+Opened handle 0x634 to process 8264(PID)
+Success! Spawned process: cmd.exe | PID: 5384 | PPID: 8264
 ```
 + PPID Spoofing
 + Cobalt Strike "like" `blockdll` functionality
