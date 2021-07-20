@@ -16,6 +16,8 @@ Attempting to openProcess: 8264(PID)
 Returned Handle: 5f8
 Successfully spawned process: cmd.exe
 ```
++ PPID Spoofing
++ Cobalt Strike "like" `blockdll` functionality
 
 ### Compile with x64 MinGW:
 ```bash
