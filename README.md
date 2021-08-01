@@ -5,6 +5,7 @@ Cobalt Strike BOF that spawns a process, then injects & executes shellcode. Buil
 ## New Features (08/01/2021)
 + Spawn process with Arbitrary Code Guard (ACG) to prevent EDR solutions from hooking the process.
 + Inject & Execute shellcode.
+![](/images/ACGupdate.png)
 ```bash
 beacon> spawn notepad.exe 6248 /Users/bobby.cooke/git/boku7/SPAWN/popCalc.bin
 [*] SPAWN (Bobby Cooke//SpiderLabs|@0xBoku|github.com/boku7)
