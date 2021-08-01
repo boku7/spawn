@@ -10,12 +10,11 @@ Cobalt Strike BOF that spawns a process, then injects & executes shellcode. Buil
 ```bash
 beacon> spawn notepad.exe 6248 /Users/bobby.cooke/git/boku7/SPAWN/popCalc.bin
 [*] SPAWN (Bobby Cooke//SpiderLabs|@0xBoku|github.com/boku7)
-[+] Opened handle 0x48c to process 6248(PID)
-[+] Spawned process: notepad.exe | PID: 4240 | PPID: 6248
-[+] Allocated RE memory in remote process 4240 (PID) at: 0x0000025DBC470000
-[+] Wrote 280 bytes to memory in remote process 4240 (PID) at 0x0000025DBC470000
-[+] APC queued for main thread of 4240 (PID) to shellcode address 0x0000025DBC470000
-[+] Thread resumed and shellcode is being executed within the remote process!
+[+] Opened handle 0x534 to process 6248(PID)
+[+] Spawned process: notepad.exe | PID: 8404 | PPID: 6248
+[+] Allocated RE memory in remote process 8404 (PID) at: 0x00000177A72C0000
+[+] Wrote 280 bytes to memory in remote process 8404 (PID) at 0x00000177A72C0000
+[+] APC queued for main thread of 8404 (PID) to shellcode address 0x00000177A72C0000
 ```
 
 ## New Features (07/19/2021)
