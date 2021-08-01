@@ -1,5 +1,5 @@
 ## SPAWN - Cobalt Strike BOF
-Beacon Object File (BOF) that spawns an arbitrary process from beacons memory. Supports Parent Process ID (PPID) spoofing & blocking non-MS signed DLLs from loading into the processes memory (some EDR DLLs).
+Cobalt Strike BOF that spawns a process, then injects & executes shellcode. Built to evade EDR/UserLand hooks by spawning the process with Arbitrary Code Guard (ACG), BlockDll, and PPID spoofing.
 
 ## New Features (07/19/2021)
 + CNA Agressor Script interface
