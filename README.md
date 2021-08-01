@@ -37,12 +37,12 @@ Success! Spawned process: cmd.exe | PID: 5384 | PPID: 8264
 
 ### Compile with x64 MinGW:
 ```bash
-x86_64-w64-mingw32-gcc -c spawnSuspendedProcess.c -o spawnSuspendedProcess.o
+x86_64-w64-mingw32-gcc -c spawn.x64.c -o spawn.x64.o
 ```
 ### Run from Cobalt Strike Beacon Console
 + After compile import the spawn.cna script into Cobalt Strikes Script Manager
 ```bash
-beacon> spawn /path/to/exe PPID
+beacon> spawn /path/to/exe PPID /local/path/to/shellcode.bin
 ```
 
 ### To Do List
@@ -60,7 +60,7 @@ beacon> spawn /path/to/exe PPID
   - No longer crashes on process creation failure!
 + ~Return the PID to the Cobalt Strike console when the new process is spawned~  
   ![](/images/retpid.png)
-+ Build out different methods of remote process injection
++ ~Build out different methods of remote process injection~ (08/01/21)
 + Build out different methods of remote process patching
   + NTDLL.DLL remote process Unhooking
   + ETW remote process Patching/Bypass
