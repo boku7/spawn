@@ -3,7 +3,7 @@ Cobalt Strike BOF that spawns a sacrificial process, injects it with shellcode, 
 
 
 ## New Features (08/01/2021)
-+ Spawn process with Arbitrary Code Guard (ACG) to prevent EDR solutions from hooking the process.
++ Spawn sacrificial process with Arbitrary Code Guard (ACG) to prevent EDR solutions from hooking into sacrificial process DLL's.
   + See [Adam Chester's "Protecting Your Malware" blog for full details](https://blog.xpnsec.com/protecting-your-malware/). This part of the BOF is derived from his work.
 + Inject & Execute shellcode.  
 #### Popin' Calc from ACG Protected Process
