@@ -1,5 +1,5 @@
 ## SPAWN - Cobalt Strike BOF
-Cobalt Strike BOF that spawns a process, then injects & executes shellcode. Built to evade EDR/UserLand hooks by spawning the process with Arbitrary Code Guard (ACG), BlockDll, and PPID spoofing.
+Cobalt Strike BOF that spawns a sacrificial process, injects it with shellcode, and executes payload. Built to evade EDR/UserLand hooks by spawning sacrificial process with Arbitrary Code Guard (ACG), BlockDll, and PPID spoofing.
 
 
 ## New Features (08/01/2021)
