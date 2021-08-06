@@ -3,8 +3,8 @@ Cobalt Strike BOF that spawns a sacrificial process, injects it with shellcode, 
 + Due to ACG, this does not support shellcode which is dependent on these fuctionalities:
   + Toggling memory permissions between RW/RX. 
   + RWX memory   
-
-To inject shellcode into a spawned process that is dependent on the above functionilities please see the [Hollow BOF project](https://github.com/boku7/HOLLOW)
++ To inject shellcode into a spawned process that is dependent on the above functionilities please see the [Hollow BOF project](https://github.com/boku7/HOLLOW)
++ For an awesome explaination on ACG please see Adam Chestner's blog below.
 
 ## New Features (08/01/2021)
 + Spawn sacrificial process with Arbitrary Code Guard (ACG) to prevent EDR solutions from hooking into sacrificial process DLL's.
