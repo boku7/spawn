@@ -1,6 +1,9 @@
 ## SPAWN - Cobalt Strike BOF
 Cobalt Strike BOF that spawns a sacrificial process, injects it with shellcode, and executes payload. Built to evade EDR/UserLand hooks by spawning sacrificial process with Arbitrary Code Guard (ACG), BlockDll, and PPID spoofing.
-
++ Due to ACG, this does not support shellcode which is dependent on these fuctionalities:
+  + Toggling memory permissions between RW/RX
+  + RWX memory
+To inject shellcode into a spawned process that is dependent on the above functionilities please see the [Hollow BOF project](https://github.com/boku7/HOLLOW)
 
 ## New Features (08/01/2021)
 + Spawn sacrificial process with Arbitrary Code Guard (ACG) to prevent EDR solutions from hooking into sacrificial process DLL's.
