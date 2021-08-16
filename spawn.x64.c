@@ -1,6 +1,7 @@
 #include <windows.h>
 #include "beacon.h"
 
+// Author: Bobby Cooke//SpiderLabs|@0xBoku|github.com/boku7)
 // Credit/shoutout to: Adam Chester @_xpn_ + @SEKTOR7net + Raphael Mudge
 // Thank you for the amazing work that you've contributed. I would not be able to publish this without your blogs, videos, and awesome content!
 // Main References for PPID Spoofing & blockdll
