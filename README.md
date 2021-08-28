@@ -80,7 +80,7 @@ beacon> spawn /path/to/exe PPID /local/path/to/shellcode.bin
 
 ### Credits / References
 ##### PPID Spoofing & blockDll functionality
-+ Credit/shoutout to: Adam Chester @_xpn_ + @SEKTOR7net + Raphael Mudge
++ Credit/shoutout to: Adam Chester @\_xpn\_ + @SEKTOR7net + Raphael Mudge
 + Thank you for the amazing work that you've contributed. I would not be able to publish this without your blogs, videos, and awesome content!
 + Main References for PPID Spoofing & blockdll
   - https://blog.xpnsec.com/protecting-your-malware/
